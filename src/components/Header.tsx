@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Search, Menu, X } from 'lucide-react';
+import { ShoppingBag, Search, Menu, X, User } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
+import { products } from '../data/products';
+import ProductVisual from './ProductVisual';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  
   const toggleCart = useCartStore(state => state.toggleCart);
   const items = useCartStore(state => state.items);
   const count = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -15,80 +21,181 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setScrollDirection('down');
+      } else if (currentScrollY < lastScrollY) {
+        setScrollDirection('up');
+      }
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setActiveMegaMenu(null);
   }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Shop', path: '/shop' },
-    { name: 'Our Standards', path: '/standards' },
-    { name: 'Ingredients', path: '/ingredients' },
-    { name: 'Learn', path: '/learn' },
+    { name: 'Shop', path: '/shop', hasMegaMenu: true },
+    { name: 'Our Standards', path: '/standards', hasMegaMenu: false },
+    { name: 'Ingredients', path: '/ingredients', hasMegaMenu: false },
+    { name: 'Learn', path: '/learn', hasMegaMenu: false },
+    { name: 'Blog', path: '/blog', hasMegaMenu: false },
   ];
 
   return (
-    <header 
-      className={cn(
-        "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
-        isScrolled ? "bg-ivory/95 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden p-2 -ml-2 text-charcoal hover:text-sage transition-colors"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-
-          {/* Logo */}
-          <Link to="/" className="text-2xl font-serif font-medium tracking-tight hover:opacity-80 transition-opacity">
-            Kin & Clear
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map(link => (
-              <Link 
-                key={link.name} 
-                to={link.path}
-                className="text-sm font-medium hover:text-sage transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Icons */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            <button className="p-2 text-charcoal hover:text-sage transition-colors" aria-label="Search">
-              <Search className="w-5 h-5" />
-            </button>
+    <>
+      <header 
+        className={cn(
+          "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
+          isScrolled ? "bg-ivory/95 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.03)] py-3" : "bg-transparent py-6",
+          scrollDirection === 'down' && isScrolled ? "-translate-y-full" : "translate-y-0"
+        )}
+        onMouseLeave={() => setActiveMegaMenu(null)}
+      >
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="flex items-center justify-between">
+            
+            {/* Mobile Menu Button */}
             <button 
-              className="p-2 text-charcoal hover:text-sage transition-colors relative"
-              onClick={toggleCart}
-              aria-label="Cart"
+              className="md:hidden p-2 -ml-2 text-charcoal hover:text-sage transition-colors"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
             >
-              <ShoppingBag className="w-5 h-5" />
-              {count > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-terracotta text-white text-[10px] font-bold flex items-center justify-center rounded-full">
-                  {count}
-                </span>
-              )}
+              <Menu className="w-6 h-6" />
             </button>
+
+            {/* Logo */}
+            <Link to="/" className="text-2xl font-serif font-medium tracking-tight hover:opacity-80 transition-opacity z-10 shrink-0">
+              Kin & Clear
+            </Link>
+
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-8 lg:gap-12 absolute left-1/2 -translate-x-1/2">
+              {navLinks.map(link => (
+                <div 
+                  key={link.name}
+                  onMouseEnter={() => setActiveMegaMenu(link.hasMegaMenu ? link.name : null)}
+                  className="h-full py-2"
+                >
+                  <Link 
+                    to={link.path}
+                    className="text-[15px] font-medium transition-colors link-underline pb-1"
+                  >
+                    {link.name}
+                  </Link>
+                </div>
+              ))}
+            </nav>
+
+            {/* Icons */}
+            <div className="flex items-center gap-2 sm:gap-4 z-10 shrink-0">
+              <button className="p-2 text-charcoal hover:text-sage transition-colors" aria-label="Search">
+                <Search className="w-5 h-5" />
+              </button>
+              <button className="hidden md:block p-2 text-charcoal hover:text-sage transition-colors" aria-label="Account">
+                <User className="w-5 h-5" />
+              </button>
+              <button 
+                className="p-2 text-charcoal hover:text-sage transition-colors relative"
+                onClick={toggleCart}
+                aria-label="Cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                <AnimatePresence>
+                  {count > 0 && (
+                    <motion.span 
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute top-1 right-1 w-[18px] h-[18px] bg-terracotta text-white text-[10px] font-bold flex items-center justify-center rounded-full"
+                    >
+                      {count}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+
+        {/* Mega Menu Overlay */}
+        <AnimatePresence>
+          {activeMegaMenu === 'Shop' && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="absolute top-full left-0 right-0 bg-white shadow-xl border-t border-sage-light/50"
+              onMouseEnter={() => setActiveMegaMenu('Shop')}
+              onMouseLeave={() => setActiveMegaMenu(null)}
+            >
+              <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 flex gap-12 lg:gap-24">
+                
+                <div className="w-1/4">
+                  <h4 className="text-xs font-semibold tracking-widest text-slate uppercase mb-6">Shop by Category</h4>
+                  <ul className="space-y-4">
+                    {['All Products', 'Bath & Cleansing', 'Skin & Moisture', 'Diaper Care', 'Everyday Essentials', 'Bundles'].map(item => (
+                      <li key={item}>
+                        <Link to={`/shop?category=${item === 'All Products' ? 'All' : item.split(' ')[0].toLowerCase()}`} className="text-charcoal hover:text-sage transition-colors link-arrow">
+                          {item}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="w-1/4">
+                  <h4 className="text-xs font-semibold tracking-widest text-slate uppercase mb-6">Shop by Need</h4>
+                  <ul className="space-y-4">
+                    {['Dry & Sensitive Skin', 'Newborn', 'Bath Time', 'Diaper Care', 'Bedtime'].map(item => (
+                      <li key={item}>
+                        <Link to={`/shop?category=${item.split(' ')[0].toLowerCase()}`} className="text-charcoal hover:text-sage transition-colors link-arrow">
+                          {item}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="w-2/4 bg-ivory rounded-2xl p-6 flex gap-6">
+                  <div className="w-1/2 aspect-square rounded-xl overflow-hidden relative group">
+                    <ProductVisual product={products[14]} className="w-full h-full" />
+                  </div>
+                  <div className="flex flex-col justify-center w-1/2">
+                    <span className="text-xs font-semibold tracking-widest text-sage uppercase mb-2">Featured</span>
+                    <h3 className="font-serif text-2xl mb-2">Newborn Starter Set</h3>
+                    <p className="text-sm text-slate mb-6">The 4 essentials for their first months.</p>
+                    <Link to="/product/newborn-starter-set" className="text-sm font-medium link-arrow">
+                      Shop Set <span>→</span>
+                    </Link>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Backdrop for Mega Menu */}
+      <AnimatePresence>
+        {activeMegaMenu && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-charcoal/20 z-30 backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -128,6 +235,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

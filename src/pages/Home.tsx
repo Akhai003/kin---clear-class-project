@@ -1,151 +1,269 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck, Leaf, Heart, Droplets } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { products } from '../data/products';
+import { ingredients } from '../data/ingredients';
 import ProductCard from '../components/ProductCard';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import EditorialVisual from '../components/EditorialVisual';
 
 export default function Home() {
-  const featuredProducts = products.slice(0, 3);
+  const featuredProducts = products.slice(0, 4);
+  const bestSellers = products.filter(p => p.rating >= 4.9).slice(0, 4);
+  
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
+  const heroOpacity = useTransform(heroScroll, [0, 1], [1, 0]);
 
   return (
-    <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center bg-sage-light">
-        <div className="absolute inset-0 w-full h-full">
-          <img 
-            src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-            alt="Mother holding baby" 
-            className="w-full h-full object-cover object-center opacity-70"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-ivory via-ivory/80 to-transparent"></div>
-        </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
-          <div className="max-w-2xl">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
+    <div className="bg-ivory overflow-hidden">
+      {/* 1. LAYERED HERO */}
+      <section ref={heroRef} className="relative min-h-[82vh] lg:min-h-[86vh] flex flex-col justify-end overflow-hidden pt-32 pb-12 lg:pb-24">
+        <motion.div 
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="absolute inset-0 z-0"
+        >
+          <EditorialVisual kind="baby" title="Gentle care for the first years" className="w-full h-full opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/80 to-transparent lg:via-ivory/40"></div>
+        </motion.div>
+
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full">
+          <div className="max-w-3xl">
+            <motion.span 
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl font-serif font-medium leading-tight mb-6"
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-sage font-semibold tracking-widest uppercase text-xs sm:text-sm mb-6 block"
             >
-              Nothing hidden. <br />
+              Kin & Clear
+            </motion.span>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              className="text-fluid-hero text-charcoal leading-[1.05] mb-6"
+            >
+              Nothing hidden.<br/>
               <span className="italic text-sage">Only care.</span>
             </motion.h1>
+            
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-lg md:text-xl text-charcoal/80 mb-10 max-w-lg leading-relaxed"
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              className="text-fluid-body-lg text-charcoal/80 mb-10 max-w-xl"
             >
-              We believe parents shouldn't need a science degree to know what's safe. Radically transparent, pediatrician-approved baby care for modern families.
+              Transparently formulated, radically gentle care for the first years. We explain every ingredient, because you deserve to know what touches their skin.
             </motion.p>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+            
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4"
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
             >
-              <Link to="/shop" className="px-8 py-4 bg-charcoal text-ivory rounded-full font-medium text-center hover:bg-charcoal/90 transition-colors">
-                Shop Essentials
-              </Link>
-              <Link to="/standards" className="px-8 py-4 border border-charcoal/20 text-charcoal rounded-full font-medium text-center hover:border-charcoal transition-colors">
-                Explore Our Standards
+              <Link 
+                to="/shop" 
+                className="inline-flex items-center justify-center bg-charcoal text-ivory px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-sage group"
+              >
+                Shop Collection
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Trust Strip */}
-      <section className="bg-white py-8 border-y border-sage-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center text-sm font-medium text-slate">
-            <div className="flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-sage" /> Dermatologist Tested*</div>
-            <div className="flex items-center gap-2"><Leaf className="w-5 h-5 text-sage" /> Transparent Ingredients</div>
-            <div className="flex items-center gap-2"><Heart className="w-5 h-5 text-sage" /> Sensitive Skin Focus</div>
+      {/* 2. START HERE PATHWAYS */}
+      <section className="py-12 lg:py-24 border-b border-sage-light">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12"
+          >
+            <div>
+              <span className="text-xs font-semibold tracking-widest uppercase text-slate mb-3 block">01 / Discover</span>
+              <h2 className="text-fluid-h3">Not sure where to begin?</h2>
+            </div>
+            <p className="text-slate mt-4 md:mt-0">Choose how you'd like to explore.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            {[
+              { title: 'Shop by Need', desc: 'Find targeted care.', link: '/shop' },
+              { title: 'Build a Routine', desc: 'Step-by-step guidance.', link: '/learn' },
+              { title: 'Ingredients', desc: 'Understand the label.', link: '/ingredients' },
+              { title: 'Newborn Basics', desc: 'Read our parent guides.', link: '/blog' }
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ delay: i * 0.1 }}
+                className="h-full"
+              >
+                <Link to={item.link} className="group block p-8 rounded-[20px] bg-white border border-sage-light hover:border-sage transition-colors h-full flex flex-col">
+                  <h3 className="font-serif text-xl mb-2 group-hover:text-sage transition-colors">{item.title}</h3>
+                  <p className="text-slate text-sm mb-6 flex-grow">{item.desc}</p>
+                  <span className="mt-auto inline-flex items-center text-sm font-medium link-arrow">
+                    Explore <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-24 bg-ivory">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
+      {/* 3. PARENT FAVORITES - PREMIUM EDITORIAL GRID */}
+      <section className="py-24 lg:py-32 overflow-hidden bg-ivory">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div className="max-w-xl">
-              <h2 className="text-3xl md:text-4xl font-serif font-medium mb-4">Everyday Essentials</h2>
-              <p className="text-slate">Gentle formulations designed for daily care, protecting your baby's delicate skin barrier.</p>
+              <span className="text-sage font-semibold tracking-widest uppercase text-xs sm:text-sm mb-4 block">02 / Essentials</span>
+              <h2 className="text-fluid-h2 mb-4">Parent Favorites</h2>
+              <p className="text-slate text-lg">The formulas our community relies on every single day for their baby's routine.</p>
             </div>
-            <Link to="/shop" className="hidden md:flex items-center gap-2 font-medium hover:text-sage transition-colors">
-              View all <ArrowRight className="w-4 h-4" />
+            <Link to="/shop" className="hidden md:inline-flex items-center text-sm font-medium link-underline pb-1 text-charcoal hover:text-sage transition-colors">
+              Shop All Essentials <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+          {/* Desktop Grid: 3 Large Cards */}
+          <div className="hidden lg:grid grid-cols-3 gap-8">
+            {bestSellers.slice(0, 3).map((product, i) => (
+              <motion.div 
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.6, delay: i * 0.15 }}
+                className="h-full"
+              >
+                <ProductCard product={product} />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mobile/Tablet Rail */}
+          <div className="lg:hidden flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
+            {bestSellers.map((product, i) => (
+              <div key={product.id} className="w-[85vw] sm:w-[350px] flex-shrink-0 snap-start">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
           
           <div className="mt-8 md:hidden text-center">
-            <Link to="/shop" className="inline-flex items-center gap-2 font-medium hover:text-sage transition-colors">
-              View all products <ArrowRight className="w-4 h-4" />
-            </Link>
+             <Link to="/shop" className="inline-flex items-center text-sm font-medium link-arrow text-charcoal">
+                Shop All <ArrowRight className="w-4 h-4 ml-1" />
+              </Link>
           </div>
         </div>
       </section>
 
-      {/* Safety Standard Story */}
-      <section className="py-24 bg-sage text-ivory">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="order-2 md:order-1 relative rounded-2xl overflow-hidden aspect-[4/5] md:aspect-square">
-              <img 
-                src="https://images.unsplash.com/photo-1544626053-8985dc34ae63?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="Applying lotion" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="order-1 md:order-2">
-              <h2 className="text-3xl md:text-5xl font-serif font-medium mb-6 leading-tight">
-                No guessing games. Just pure clarity.
-              </h2>
-              <p className="text-lg text-ivory/80 mb-8 leading-relaxed">
-                We replace complicated chemical jargon with clear, human explanations. Every ingredient has a purpose, and we tell you exactly what it is.
-              </p>
-              <div className="space-y-6 mb-10">
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-ivory/20 flex items-center justify-center flex-shrink-0">1</div>
-                  <div>
-                    <h3 className="font-medium text-xl mb-1">Purposeful Ingredients</h3>
-                    <p className="text-ivory/70">If it doesn't nourish or protect, it's not in the bottle.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-ivory/20 flex items-center justify-center flex-shrink-0">2</div>
-                  <div>
-                    <h3 className="font-medium text-xl mb-1">Safety First</h3>
-                    <p className="text-ivory/70">Rigorous third-party testing for sensitive and eczema-prone skin.</p>
+      {/* 4. EDITORIAL STATEMENT */}
+      <section className="py-32 lg:py-48 bg-sage-light text-center relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 relative z-10">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-20%" }}
+            transition={{ duration: 0.8 }}
+            className="text-fluid-h1 leading-tight mb-8"
+          >
+            You shouldn't need a science degree to understand the label.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-fluid-body-lg text-slate max-w-2xl mx-auto"
+          >
+            We formulate with intention, testing extensively to ensure every product supports your baby's developing skin barrier.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* 5. INGREDIENT SPOTLIGHT */}
+      <section className="py-24 lg:py-32">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, filter: 'blur(10px)' }}
+              whileInView={{ opacity: 1, filter: 'blur(0px)' }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="order-2 lg:order-1 aspect-square rounded-[24px] overflow-hidden bg-sage-light relative"
+            >
+              <EditorialVisual kind="ingredient" title="Colloidal Oatmeal / texture study" className="w-full h-full" />
+            </motion.div>
+
+            <div className="order-1 lg:order-2 lg:pl-12">
+              <span className="text-xs font-semibold tracking-widest uppercase text-slate mb-3 block">03 / Transparency</span>
+              <h2 className="text-fluid-h2 mb-8">Ingredients, without the mystery.</h2>
+              
+              <div className="bg-ivory border border-sage-light rounded-[24px] p-8 lg:p-12 mb-8">
+                <span className="text-sage text-sm font-semibold tracking-widest uppercase mb-4 block">{ingredients[0].category}</span>
+                <h3 className="text-3xl font-serif mb-4">{ingredients[0].name}</h3>
+                <p className="text-slate mb-6 line-clamp-3">{ingredients[0].whatItIs} {ingredients[0].role}</p>
+                
+                <div className="pt-6 border-t border-sage-light">
+                  <span className="text-sm font-medium mb-3 block">Found in:</span>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-4 py-1.5 bg-white rounded-full text-xs font-medium border border-sage-light">Daily Moisturising Lotion</span>
+                    <span className="px-4 py-1.5 bg-white rounded-full text-xs font-medium border border-sage-light">Head-to-Toe Cleanser</span>
                   </div>
                 </div>
               </div>
-              <Link to="/ingredients" className="inline-flex items-center gap-2 bg-ivory text-charcoal px-6 py-3 rounded-full font-medium hover:bg-white transition-colors">
-                Explore Our Ingredient Library
+
+              <Link to="/ingredients" className="inline-flex items-center text-charcoal font-medium link-underline pb-1 group">
+                Explore the Library <ArrowUpRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Quiz Teaser */}
-      <section className="py-24 bg-peach/30 text-center">
-        <div className="max-w-3xl mx-auto px-4">
-          <Droplets className="w-12 h-12 text-terracotta mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-serif font-medium mb-4">Not sure what your little one needs?</h2>
-          <p className="text-slate text-lg mb-8 max-w-xl mx-auto">Take our 2-minute skin profile quiz to find the perfect gentle routine for your baby's unique skin type.</p>
-          <Link to="/quiz" className="inline-block px-8 py-4 bg-terracotta text-white rounded-full font-medium hover:bg-terracotta/90 transition-colors shadow-sm">
-            Start Skin Quiz
-          </Link>
+
+      {/* 6. NEWBORN SPLIT ROUTINE */}
+      <section className="py-24 lg:py-32 bg-white border-t border-sage-light">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8">
+            
+            <div className="lg:col-span-4 flex flex-col justify-center">
+              <span className="text-xs font-semibold tracking-widest uppercase text-slate mb-3 block">04 / Routine</span>
+              <h2 className="text-fluid-h2 mb-6">The Newborn Essentials</h2>
+              <p className="text-slate mb-10">Everything you actually need, nothing you don't. A simplified routine for their first months.</p>
+              
+              <Link to="/shop" className="inline-flex items-center justify-center bg-ivory border border-sage-light text-charcoal px-8 py-4 rounded-full font-medium transition-colors hover:bg-sage-light w-max">
+                Shop Newborn
+              </Link>
+            </div>
+
+            <div className="lg:col-span-8 grid sm:grid-cols-2 gap-6">
+              {featuredProducts.slice(0, 2).map((product, i) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.2 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </div>
+            
+          </div>
         </div>
       </section>
     </div>

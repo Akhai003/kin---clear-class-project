@@ -5,6 +5,7 @@ import { useCartStore } from '../store/useCartStore';
 import { formatCurrency } from '../lib/utils';
 import { ShieldCheck, Plus, Minus, Info, Star } from 'lucide-react';
 import { motion } from 'motion/react';
+import ProductVisual from '../components/ProductVisual';
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -47,11 +48,7 @@ export default function ProductDetail() {
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 mb-24">
           {/* Gallery */}
           <div className="relative aspect-[4/5] md:aspect-square bg-sage-light rounded-2xl overflow-hidden">
-            <img 
-              src={product.image} 
-              alt={product.name} 
-              className="w-full h-full object-cover"
-            />
+<ProductVisual product={product} className="w-full h-full" />
             {product.badge && (
               <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 text-xs font-medium uppercase tracking-wider rounded-full shadow-sm text-charcoal">
                 {product.badge}

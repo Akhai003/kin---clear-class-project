@@ -8,6 +8,8 @@ import Checkout from './pages/Checkout';
 import Ingredients from './pages/Ingredients';
 import Standards from './pages/Standards';
 import Learn from './pages/Learn';
+import Blog from './pages/Blog';
+import ArticleDetail from './pages/ArticleDetail';
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="ingredients" element={<Ingredients />} />
           <Route path="standards" element={<Standards />} />
           <Route path="learn" element={<Learn />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="article/:slug" element={<ArticleDetail />} />
           {/* Fallback for other pages */}
           <Route path="*" element={<Home />} />
         </Route>

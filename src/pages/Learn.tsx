@@ -1,81 +1,25 @@
-import React from 'react';
-import { BookOpen } from 'lucide-react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
+import { ArrowRight, Clock } from 'lucide-react';
+import EditorialVisual from '../components/EditorialVisual';
+import Reveal from '../components/Reveal';
+import { articles } from '../data/articles';
 
-export default function Learn() {
-  const articles = [
-    {
-      title: 'Understanding the Baby Skin Barrier',
-      excerpt: 'Why newborn skin loses moisture twice as fast as adult skin, and how to protect it.',
-      image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Skin Health'
-    },
-    {
-      title: 'How to Read a Baby-Care Ingredient List',
-      excerpt: 'A practical guide to cutting through the jargon and spotting hidden irritants.',
-      image: 'https://images.unsplash.com/photo-1544626053-8985dc34ae63?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Ingredients'
-    },
-    {
-      title: 'Building a Simple, Tear-Free Bath Routine',
-      excerpt: 'Step-by-step guidance for making bath time calm, safe, and bonding.',
-      image: 'https://images.unsplash.com/photo-1596541604085-f55a153de5a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      category: 'Routines'
-    }
-  ];
+const TOPICS=[['skin','Baby Skin 101','Barrier basics, dryness and sensitive skin.'],['routines','Routines','Bath, moisture, diaper and bedtime.'],['ingredients','Ingredients 101','Labels, formula roles and context.'],['parents','First-Time Parents','What you need, what you can skip, and how to choose.']];
+const GUIDES=[['Baby Skin','baby','A simple map of the barrier, moisture and everyday observation.'],['Ingredient Lists','ingredient','How to read a label without turning it into a chemistry exam.'],['Bath Time','bath','A calm sequence for cleansing, drying and moisturising.'],['Diaper Care','baby','Clean, dry, protect — and understand where each product fits.'],['Simple Routines','journal','How to build a routine with fewer, clearer steps.']];
+export default function Learn(){const [topic,setTopic]=useState('skin'); const related=(id:string)=> id==='skin'?articles.filter(a=>a.category==='Baby Skin'):id==='ingredients'?articles.filter(a=>a.category==='Ingredients'):id==='routines'?articles.filter(a=>a.category==='Routines'):articles.filter(a=>a.category==='Parent Guides');
+return <div className="bg-ivory min-h-screen pt-32 pb-24"><div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+ <Reveal className="grid lg:grid-cols-2 gap-10 items-end mb-20"><div><span className="text-sage font-semibold tracking-[.2em] uppercase text-xs mb-5 block">Knowledge Hub</span><h1 className="text-fluid-h1 mb-6">Learn without the <span className="italic text-sage">overwhelm.</span></h1><p className="text-fluid-body-lg text-slate max-w-2xl">Clear explanations for the questions that show up between the big firsts.</p></div><EditorialVisual kind="journal" title="A calmer way to understand care" className="aspect-[16/9] rounded-[22px]"/></Reveal>
 
-  return (
-    <div className="bg-ivory min-h-screen pt-12 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-serif font-medium mb-6">Parenting Journal</h1>
-          <p className="text-slate text-lg max-w-2xl mx-auto">
-            Practical guidance, scientific breakdowns, and honest advice for navigating the big firsts.
-          </p>
-        </div>
+ <section className="mb-28"><span className="text-xs uppercase tracking-[.2em] text-slate">Choose a learning path</span><div className="grid lg:grid-cols-12 gap-8 mt-6">
+  <div className="lg:col-span-4 border-t border-sage-light">{TOPICS.map(t=><button key={t[0]} onClick={()=>setTopic(t[0])} className={`w-full text-left py-5 border-b border-sage-light transition-all ${topic===t[0]?'pl-3 text-charcoal':'text-slate hover:pl-2 hover:text-charcoal'}`}><h3 className="font-serif text-2xl">{t[1]}</h3><p className="text-sm mt-1">{t[2]}</p></button>)}</div>
+  <div className="lg:col-span-8 bg-white border border-sage-light rounded-[24px] p-7 lg:p-10"><AnimatePresence mode="wait"><motion.div key={topic} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}}><div className="flex items-end justify-between border-b border-sage-light pb-5 mb-3"><h2 className="font-serif text-3xl">{TOPICS.find(t=>t[0]===topic)?.[1]}</h2><span className="text-xs text-slate">Featured reading</span></div>{related(topic).slice(0,4).map((a,i)=><Link to={`/article/${a.slug}`} key={a.id} className="group grid grid-cols-[36px_1fr_auto] gap-3 py-5 border-b border-sage-light/70 items-center"><span className="text-sage text-xs">0{i+1}</span><div><h3 className="font-serif text-xl group-hover:text-sage transition-colors">{a.title}</h3><p className="text-slate text-sm mt-1 line-clamp-1">{a.excerpt}</p></div><ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1"/></Link>)}</motion.div></AnimatePresence></div>
+ </div></section>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {articles.map((article, idx) => (
-            <div key={idx} className="bg-white rounded-3xl overflow-hidden border border-sage-light group cursor-pointer hover:shadow-md transition-all">
-              <div className="aspect-video overflow-hidden">
-                <img 
-                  src={article.image} 
-                  alt={article.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-6">
-                <span className="text-xs font-medium text-sage uppercase tracking-wider mb-2 block">{article.category}</span>
-                <h3 className="text-xl font-serif font-medium mb-3 group-hover:text-terracotta transition-colors">{article.title}</h3>
-                <p className="text-slate text-sm mb-6">{article.excerpt}</p>
-                <button className="text-charcoal font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Read Article <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div className="mt-24 max-w-3xl mx-auto bg-sage-light rounded-3xl p-8 md:p-12 text-center">
-          <BookOpen className="w-10 h-10 text-sage mx-auto mb-6" />
-          <h2 className="text-2xl font-serif font-medium mb-4">Small guidance for the big firsts.</h2>
-          <p className="text-slate mb-8 max-w-lg mx-auto">Receive practical baby-care guides, product education, and thoughtful routines directly in your inbox.</p>
-          <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-            <input 
-              type="email" 
-              placeholder="Your email address" 
-              required
-              className="flex-grow px-6 py-3 rounded-full border-none focus:ring-2 focus:ring-sage outline-none"
-            />
-            <button type="submit" className="px-6 py-3 bg-charcoal text-ivory rounded-full font-medium hover:bg-charcoal/90 transition-colors">
-              Subscribe
-            </button>
-          </form>
-          <p className="text-xs text-slate mt-4">We respect your privacy. Unsubscribe at any time.</p>
-        </div>
+ <section className="mb-28"><Reveal className="flex items-end justify-between mb-10"><div><span className="text-xs uppercase tracking-[.2em] text-slate">Quick visual learning</span><h2 className="text-fluid-h2 mt-2">5-Minute Guides</h2></div><p className="hidden md:block text-slate">Five clear ideas. No jargon maze.</p></Reveal>
+  <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-6">{GUIDES.map((g,i)=><Reveal key={g[0]} delay={i*.04} className={`${i<2?'lg:col-span-6':'lg:col-span-4'} group bg-white border border-sage-light rounded-[22px] overflow-hidden`}><EditorialVisual kind={g[1]} title={g[0]} className={`${i<2?'aspect-[16/9]':'aspect-[4/3]'}`}/><div className="p-7"><div className="flex items-center gap-2 text-sage text-xs uppercase tracking-widest mb-4"><Clock className="w-4 h-4"/>5 minute guide</div><h3 className="font-serif text-3xl mb-3">{g[0]}</h3><p className="text-slate mb-6">{g[2]}</p><Link to="/blog" className="inline-flex items-center gap-2 font-medium link-underline pb-1">Open guide <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1"/></Link></div></Reveal>)}</div>
+ </section>
 
-      </div>
-    </div>
-  );
-}
+ <section className="grid lg:grid-cols-2 gap-8 mb-28"><div className="bg-charcoal text-ivory p-10 lg:p-14 rounded-[24px]"><span className="text-xs uppercase tracking-[.2em] text-sage">Glossary</span><h2 className="text-fluid-h2 mt-3 mb-5">Words, translated.</h2><p className="text-ivory/70 text-lg mb-8">Humectant, emollient, occlusive, surfactant, preservative — learn what common formulation terms actually mean.</p><Link to="/ingredients" className="inline-flex items-center gap-2 text-ivory link-underline pb-1">Explore ingredient language <ArrowRight className="w-4 h-4"/></Link></div><div className="border-y border-sage-light p-8 lg:p-12 flex flex-col justify-center"><span className="text-xs uppercase tracking-[.2em] text-slate">From the Journal</span><h3 className="font-serif text-4xl mt-3 mb-5">Want the longer version?</h3><p className="text-slate text-lg mb-7">The Journal turns these quick pathways into deeper stories, comparisons and parent-first explainers.</p><Link to="/blog" className="inline-flex items-center gap-2 font-medium">Read the Journal <ArrowRight className="w-4 h-4"/></Link></div></section>
+ </div></div>}

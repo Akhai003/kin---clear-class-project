@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProductVisual from '../components/ProductVisual';
 import { useCartStore } from '../store/useCartStore';
 import { formatCurrency } from '../lib/utils';
 import { Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
@@ -138,7 +139,7 @@ export default function Checkout() {
             {items.map(item => (
               <div key={item.product.id} className="flex gap-4">
                 <div className="w-16 h-16 rounded-lg bg-sage-light overflow-hidden flex-shrink-0 relative">
-                  <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
+                  <ProductVisual product={item.product} className="w-full h-full" />
                   <span className="absolute -top-2 -right-2 w-5 h-5 bg-charcoal text-white text-[10px] flex items-center justify-center rounded-full z-10">{item.quantity}</span>
                 </div>
                 <div className="flex-grow">
