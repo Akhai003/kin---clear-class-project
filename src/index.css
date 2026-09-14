@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #FAFAF7;
+  --color-charcoal: #2C2C2C;
+  --color-slate: #6B6B6B;
+  --color-sage: #9CAF88;
+  --color-sage-light: #E8EDE4;
+  --color-peach: #F4D5C2;
+  --color-terracotta: #D98A6C;
+  
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
+}
+
+@layer base {
+  body {
+    @apply bg-ivory text-charcoal font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-medium;
+  }
+}
