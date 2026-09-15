@@ -28,7 +28,7 @@ export default function Home() {
           className="absolute inset-0 z-0"
         >
           <img 
-            src="https://images.pexels.com/photos/6849430/pexels-photo-6849430.jpeg?auto=compress&cs=tinysrgb&w=2000&h=1200&fit=crop" 
+            src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
             alt="Mother and baby" 
             className="w-full h-full object-cover opacity-80"
           />
