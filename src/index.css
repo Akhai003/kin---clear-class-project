@@ -96,3 +96,41 @@ html {
 }
 
 img { color: transparent; }
+
+
+/* Mobile responsive hardening — desktop layout remains unchanged */
+html, body, #root { width: 100%; min-width: 0; }
+body { overflow-x: hidden; }
+img, video, svg { max-width: 100%; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+
+@media (max-width: 767px) {
+  .text-fluid-hero { font-size: clamp(2.7rem, 13vw, 4.25rem); line-height: .98; }
+  .text-fluid-h1 { font-size: clamp(2.25rem, 10.5vw, 3.5rem); line-height: 1.04; }
+  .text-fluid-h2 { font-size: clamp(2rem, 9vw, 3rem); line-height: 1.08; }
+  .text-fluid-h3 { font-size: clamp(1.5rem, 7vw, 2.15rem); }
+  .text-fluid-body-lg { font-size: clamp(1.02rem, 4.5vw, 1.18rem); line-height: 1.55; }
+  .text-fluid-body { font-size: 1rem; line-height: 1.6; }
+
+  /* Use the modern mobile viewport so Android browser chrome does not break hero sizing. */
+  .hero-mobile { min-height: 100svh; }
+  .hero-image { object-position: 61% center; transform: scale(1.01); }
+
+  /* Touch targets */
+  button, [role="button"] { min-height: 44px; }
+
+  /* Prevent long labels/URLs from creating horizontal page overflow. */
+  p, h1, h2, h3, h4, li, a { overflow-wrap: break-word; }
+
+  /* Mobile motion should feel lighter and avoid expensive parallax-like transforms. */
+  .hero-mobile [style*="transform"] { will-change: auto; }
+}
+
+@media (max-width: 390px) {
+  .hero-image { object-position: 64% center; }
+  .text-fluid-hero { font-size: clamp(2.55rem, 12.8vw, 3.35rem); }
+}
+
+@supports (padding: max(0px)) {
+  body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+}

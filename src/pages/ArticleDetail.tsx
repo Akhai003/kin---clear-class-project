@@ -17,7 +17,7 @@ export default function ArticleDetail() {
 
   if (!article) {
     return (
-      <div className="min-h-screen pt-32 pb-24 text-center">
+      <div className="min-h-screen pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24 text-center">
         <h1 className="text-3xl font-serif">Article not found</h1>
         <Link to="/blog" className="text-sage mt-4 inline-block">Return to Journal</Link>
       </div>

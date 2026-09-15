@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className="bg-ivory overflow-hidden">
       {/* 1. LAYERED HERO */}
-      <section ref={heroRef} className="relative min-h-[90vh] flex flex-col justify-end overflow-hidden pt-32 pb-12 lg:pb-24">
+      <section ref={heroRef} className="hero-mobile relative min-h-[90vh] flex flex-col justify-end overflow-hidden pt-28 sm:pt-32 pb-10 sm:pb-12 lg:pb-24">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -30,7 +30,7 @@ export default function Home() {
           <img 
             src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
             alt="Mother and baby" 
-            className="w-full h-full object-cover opacity-80"
+            className="hero-image w-full h-full object-cover opacity-80"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/80 to-transparent lg:via-ivory/40"></div>
         </motion.div>
@@ -60,7 +60,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              className="text-fluid-body-lg text-charcoal/80 mb-10 max-w-xl"
+              className="text-fluid-body-lg text-charcoal/80 mb-7 sm:mb-10 max-w-xl"
             >
               Transparently formulated, radically gentle care for the first years. We explain every ingredient, because you deserve to know what touches their skin.
             </motion.p>
@@ -72,7 +72,7 @@ export default function Home() {
             >
               <Link 
                 to="/shop" 
-                className="inline-flex items-center justify-center bg-charcoal text-ivory px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-sage group"
+                className="inline-flex w-full xs:w-auto sm:w-auto items-center justify-center bg-charcoal text-ivory px-7 sm:px-8 py-4 rounded-full font-medium transition-all duration-300 hover:bg-sage group"
               >
                 Shop Collection
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
@@ -147,7 +147,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ delay: i * 0.1 }}
-                className="w-[85vw] sm:w-[350px] flex-shrink-0 snap-start"
+                className="w-[82vw] max-w-[330px] sm:w-[350px] sm:max-w-none flex-shrink-0 snap-start"
               >
                 <ProductCard product={product} />
               </motion.div>

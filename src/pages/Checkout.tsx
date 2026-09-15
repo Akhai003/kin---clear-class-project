@@ -61,12 +61,12 @@ export default function Checkout() {
                 <h2 className="text-2xl font-serif mb-6">Contact & Delivery</h2>
                 <div className="space-y-4 mb-8">
                   <input type="email" placeholder="Email Address" required className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input type="text" placeholder="First Name" required className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
                     <input type="text" placeholder="Last Name" required className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
                   </div>
                   <input type="text" placeholder="Address" required className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input type="text" placeholder="City" required className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
                     <input type="text" placeholder="Postal Code" required className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
                   </div>
@@ -90,10 +90,10 @@ export default function Checkout() {
                   </label>
                 </div>
                 <div className="flex gap-4">
-                  <button type="button" onClick={() => setStep(1)} className="w-1/3 py-4 border border-charcoal text-charcoal rounded-full font-medium hover:bg-ivory transition-colors">
+                  <button type="button" onClick={() => setStep(1)} className="flex-1 sm:w-1/3 py-4 border border-charcoal text-charcoal rounded-full font-medium hover:bg-ivory transition-colors">
                     Back
                   </button>
-                  <button type="submit" className="w-2/3 py-4 bg-charcoal text-ivory rounded-full font-medium hover:bg-charcoal/90 transition-colors">
+                  <button type="submit" className="flex-[2] sm:w-2/3 py-4 bg-charcoal text-ivory rounded-full font-medium hover:bg-charcoal/90 transition-colors">
                     Continue to Payment
                   </button>
                 </div>
@@ -110,7 +110,7 @@ export default function Checkout() {
                     </div>
                     <div className="space-y-4">
                       <input type="text" placeholder="Card Number" className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <input type="text" placeholder="MM/YY" className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
                         <input type="text" placeholder="CVC" className="w-full px-4 py-3 border border-sage-light rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition-all" />
                       </div>
@@ -118,10 +118,10 @@ export default function Checkout() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <button type="button" onClick={() => setStep(2)} className="w-1/3 py-4 border border-charcoal text-charcoal rounded-full font-medium hover:bg-ivory transition-colors">
+                  <button type="button" onClick={() => setStep(2)} className="flex-1 sm:w-1/3 py-4 border border-charcoal text-charcoal rounded-full font-medium hover:bg-ivory transition-colors">
                     Back
                   </button>
-                  <button type="submit" className="w-2/3 py-4 bg-charcoal text-ivory rounded-full font-medium hover:bg-charcoal/90 transition-colors flex items-center justify-center gap-2">
+                  <button type="submit" className="flex-[2] sm:w-2/3 py-4 bg-charcoal text-ivory rounded-full font-medium hover:bg-charcoal/90 transition-colors flex items-center justify-center gap-2">
                     <Lock className="w-4 h-4" /> Pay {formatCurrency(subtotal)}
                   </button>
                 </div>
@@ -132,7 +132,7 @@ export default function Checkout() {
         </div>
 
         {/* Order Summary */}
-        <div className="w-full lg:w-[400px] flex-shrink-0 bg-ivory p-8 rounded-3xl h-fit sticky top-24">
+        <div className="w-full lg:w-[400px] flex-shrink-0 bg-ivory p-5 sm:p-8 rounded-3xl h-fit lg:sticky lg:top-24">
           <h3 className="text-xl font-serif font-medium mb-6">Order Summary</h3>
           <div className="space-y-4 mb-6 max-h-[40vh] overflow-y-auto pr-2">
             {items.map(item => (

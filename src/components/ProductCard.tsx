@@ -19,7 +19,7 @@ export default function ProductCard({ product }: { product: Product, key?: React
 
   return (
     <div className="group relative flex flex-col h-full bg-white rounded-[20px] overflow-hidden border border-transparent transition-all duration-400 hover:shadow-[0_10px_32px_rgb(0,0,0,0.055)] hover:border-sage/30">
-      <Link to={`/product/${product.slug}`} className="block relative aspect-[4/5] overflow-hidden bg-sage-light">
+      <Link to={`/product/${product.slug}`} className="block relative aspect-[5/4] sm:aspect-[4/5] overflow-hidden bg-sage-light">
         <img 
           src={product.image} 
           alt={product.name}

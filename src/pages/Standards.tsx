@@ -86,7 +86,7 @@ export default function Standards() {
   }, []);
 
   return (
-    <div className="bg-ivory min-h-screen pt-32 pb-24">
+    <div className="bg-ivory min-h-screen pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24">
       
       {/* Hero */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 mb-16 lg:mb-20 text-center">

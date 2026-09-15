@@ -33,7 +33,7 @@ export default function Learn() {
   const topicArticles = articles.filter(a => topic.categories.includes(a.category)).slice(0, 4);
 
   return (
-    <div className="bg-ivory min-h-screen pt-32 pb-24">
+    <div className="bg-ivory min-h-screen pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center mb-20 lg:mb-24">
           <div className="lg:col-span-7 max-w-3xl">
