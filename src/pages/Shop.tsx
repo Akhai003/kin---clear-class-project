@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { Filter, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { BooksShowcase, BookCfg } from '../components/BooksShowcase';
+import { useCartStore } from '../store/useCartStore';
 
 const CATEGORIES = ['All', 'Bath & Cleansing', 'Skin & Moisture', 'Diaper Care', 'Everyday Essentials', 'Bundles'];
 
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const addItem = useCartStore(state => state.addItem);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   
   const categoryParam = searchParams.get('category');
@@ -19,6 +23,27 @@ export default function Shop() {
   const filteredProducts = activeCategory === 'All' 
     ? products 
     : products.filter(p => p.category === activeCategory);
+
+
+  const showcaseProducts = products.slice(0, 8);
+  const showcaseItems: BookCfg[] = showcaseProducts.map((product) => ({
+    id: product.id,
+    title: product.name,
+    author: product.category,
+    year: product.size,
+    stars: Math.max(1, Math.min(5, Math.round(product.rating))),
+    desc: product.shortBenefit + ' ' + product.description,
+    spineBg: '#a8b991',
+    spineInk: '#ffffff',
+    spineFont: '700 38px Georgia',
+    backBg: '#f2eee6',
+    backInk: '45,45,43',
+    edge: '#e9e1d3',
+    images: { front: product.image },
+    chapters: product.benefits,
+  }));
+
+  const productFromShowcase = (item: BookCfg) => products.find((product) => product.id === item.id);
 
   const handleCategoryChange = (category: string) => {
     if (category === 'All') {
@@ -37,6 +62,44 @@ export default function Shop() {
           <h1 className="text-4xl md:text-5xl font-serif font-medium mb-4">Shop Collection</h1>
           <p className="text-slate text-lg">Gentle, safe, and transparently formulated care for your baby's delicate skin barrier.</p>
         </div>
+
+        <section className="mb-16 md:mb-20" aria-label="Interactive product collection">
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-sage">Interactive collection</p>
+              <h2 className="font-serif text-2xl font-medium md:text-3xl">Pick it up. Turn it. Explore it.</h2>
+            </div>
+            <p className="hidden max-w-md text-right text-sm leading-relaxed text-slate md:block">Hover to bring a product forward, open it for details, or use the arrows to browse the collection.</p>
+          </div>
+          <div className="h-[560px] w-full overflow-hidden rounded-[28px] border border-sage-light bg-white md:h-[680px]">
+            <BooksShowcase
+              books={showcaseItems}
+              heroTitle="Collection"
+              navTitle="Kin & Clear · Explore in 3D"
+              className="h-full min-h-0"
+              themeColors={{
+                navy: '#2d2d2b',
+                pink: '#d98b6f',
+                cream: '#fbf8f1',
+                lav: '#d9dfd2',
+                peri: '#a8b991',
+                bgLight: '#fbf8f1',
+                bgDark: '#fbf8f1',
+                foregroundLight: '#2d2d2b',
+                foregroundDark: '#2d2d2b',
+              }}
+              onPrimaryAction={(item) => {
+                const product = productFromShowcase(item);
+                if (product) navigate(`/product/${product.slug}`);
+              }}
+              onSecondaryAction={(item) => {
+                const product = productFromShowcase(item);
+                if (product) addItem(product);
+              }}
+            />
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-slate md:hidden">Tap a product to open it. Swipe/drag on the product in detail view to rotate it.</p>
+        </section>
 
         <div className="flex flex-col md:flex-row gap-8 items-start">
           
