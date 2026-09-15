@@ -71,7 +71,7 @@ export default function Shop() {
             </div>
             <p className="hidden max-w-md text-right text-sm leading-relaxed text-slate md:block">Hover to bring a product forward, open it for details, or use the arrows to browse the collection.</p>
           </div>
-          <div className="h-[560px] w-full overflow-hidden rounded-[28px] border border-sage-light bg-white md:h-[680px]">
+          <div className="h-[520px] w-full overflow-hidden rounded-[24px] border border-sage-light bg-white sm:h-[580px] md:h-[680px] md:rounded-[28px]">
             <BooksShowcase
               books={showcaseItems}
               heroTitle="Collection"
@@ -88,6 +88,7 @@ export default function Shop() {
                 foregroundLight: '#2d2d2b',
                 foregroundDark: '#2d2d2b',
               }}
+              mobileSingleItem
               onPrimaryAction={(item) => {
                 const product = productFromShowcase(item);
                 if (product) navigate(`/product/${product.slug}`);
@@ -98,7 +99,7 @@ export default function Shop() {
               }}
             />
           </div>
-          <p className="mt-3 text-xs leading-relaxed text-slate md:hidden">Tap a product to open it. Swipe/drag on the product in detail view to rotate it.</p>
+          <p className="mt-3 text-xs leading-relaxed text-slate md:hidden">Tap the focused product to open it. Use the arrows to browse; drag the opened product to rotate it.</p>
         </section>
 
         <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -142,7 +143,7 @@ export default function Shop() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {filteredProducts.map(product => (
-                  <ProductCard key={product.id} product={product} />
+                  <div key={product.id} className="shop-mobile-card"><ProductCard product={product} /></div>
                 ))}
               </div>
             )}

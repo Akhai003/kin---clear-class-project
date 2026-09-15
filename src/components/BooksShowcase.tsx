@@ -45,6 +45,8 @@ export interface BooksShowcaseProps {
   showDetailPanel?: boolean;
   /** Show prev/next arrows when there are more books than fit on screen (3). Defaults to true. */
   showCarousel?: boolean;
+  /** On narrow/touch layouts, render one focused object instead of squeezing three into view. */
+  mobileSingleItem?: boolean;
   themeColors?: {
     navy?: string;
     pink?: string;
@@ -89,6 +91,7 @@ export function BooksShowcase({
   showNav = true,
   showDetailPanel = true,
   showCarousel = true,
+  mobileSingleItem = true,
   themeColors,
   className,
   onBookSelect,
@@ -554,7 +557,10 @@ export function BooksShowcase({
 
     // Book construction
     const N = books.length;
-    const VISIBLE = Math.min(3, N);
+    // Android-first: a single focused object is easier to read, tap and rotate.
+    // Desktop keeps the dramatic three-object Vengeance composition.
+    const narrowLayout = mobileSingleItem && window.matchMedia('(max-width: 767px)').matches;
+    const VISIBLE = Math.min(narrowLayout ? 1 : 3, N);
 
     const W = 1.42,
       H = 2.14,
@@ -873,7 +879,11 @@ export function BooksShowcase({
       bookRoot.position.y = -(1 - fit) * 0.28;
       SLOTS.portrait = portrait;
 
-      SLOTS.hero = SLOTS.portrait
+      SLOTS.hero = narrowLayout
+        ? [
+          { p: [0, -0.2, 0.72], r: [-0.035, -0.08, -0.025], s: 1.5 },
+        ]
+        : SLOTS.portrait
         ? [
           { p: [-1.36, -0.58, -0.12], r: [-0.045, 0.4, 0.185], s: 1.25 },
           { p: [0.2, -0.22, 0.6], r: [-0.05, -0.1, -0.035], s: 1.35 },
@@ -890,7 +900,9 @@ export function BooksShowcase({
         return;
       }
 
-      if (SLOTS.portrait) {
+      if (narrowLayout) {
+        SLOTS.detail = { p: [0, 1.05, 0.82], r: [-0.02, -0.34, 0.04], s: 0.78 };
+      } else if (SLOTS.portrait) {
         const el = dpRef.current;
         const panelH = el && el.offsetHeight > 40 ? el.offsetHeight : dims.h * 0.44;
         const gap = dims.h * 0.035,
@@ -1061,7 +1073,7 @@ export function BooksShowcase({
     function camTo(mode: string) {
       if (mode === 'detail') {
         camX.t = SLOTS.portrait ? 0 : -0.25;
-        camZ.t = SLOTS.portrait ? 10.4 : 9.6;
+        camZ.t = narrowLayout ? 10.8 : SLOTS.portrait ? 10.4 : 9.6;
         lookX.t = SLOTS.portrait ? 0 : -0.35;
         lookY.t = SLOTS.portrait ? 0 : 0.15;
       } else {
@@ -1669,7 +1681,7 @@ export function BooksShowcase({
 
   const panelVisible = uiMode === 'detail';
   const heroWordVisible = mounted && uiMode === 'hero';
-  const canCarousel = showCarousel && books.length > 3;
+  const canCarousel = showCarousel && books.length > (mobileSingleItem && typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches ? 1 : 3);
 
   const delayMap: Record<number, string> = {
     50: 'delay-[50ms]',
@@ -1689,10 +1701,10 @@ export function BooksShowcase({
       ref={rootRef}
       tabIndex={0}
       role="region"
-      aria-label={`${heroTitle} book showcase`}
+      aria-label={`${heroTitle} interactive showcase`}
       data-state={uiMode}
       className={cn(
-        'book-showcase relative isolate h-full min-h-[560px] overflow-hidden font-sans outline-none [container-type:size] [-webkit-tap-highlight-color:transparent]',
+        'book-showcase relative isolate h-full min-h-[560px] max-[767px]:min-h-[520px] overflow-hidden font-sans outline-none [container-type:size] [-webkit-tap-highlight-color:transparent]',
         'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--bs-peri)]',
         'transition-colors duration-500 ease-out',
         uiMode === 'hero'
@@ -1707,7 +1719,7 @@ export function BooksShowcase({
         className={`pointer-events-none absolute left-1/2 top-[18%] z-[1] -translate-x-1/2 select-none transition-all duration-500 ease-out ${heroWordVisible ? 'translate-y-0 opacity-100' : uiMode === 'hero' ? '-translate-y-0 translate-y-[60px] opacity-0' : '-translate-y-11 opacity-0'
           }`}
       >
-        <span className="block whitespace-nowrap text-current text-[clamp(4.5rem,22.5cqw,18rem)] font-extrabold leading-[0.85] tracking-[-0.015em]">
+        <span className="block whitespace-nowrap text-current text-[clamp(4.5rem,22.5cqw,18rem)] max-[767px]:text-[clamp(3.2rem,19cqw,5.2rem)] font-extrabold leading-[0.85] tracking-[-0.015em]">
           {heroTitle}
         </span>
       </div>
@@ -1738,7 +1750,7 @@ export function BooksShowcase({
         <>
           <button
             type="button"
-            aria-label="Previous books"
+            aria-label="Previous items"
             onClick={() => shiftCarouselRef.current(-1)}
             className={`absolute left-3 top-1/2 z-30 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-[var(--bs-cream)]/90 text-[var(--bs-navy)] shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--bs-cream)] @min-[768px]:left-6 @min-[768px]:h-12 @min-[768px]:w-12 ${uiMode === 'hero' ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
               }`}
@@ -1747,7 +1759,7 @@ export function BooksShowcase({
           </button>
           <button
             type="button"
-            aria-label="Next books"
+            aria-label="Next items"
             onClick={() => shiftCarouselRef.current(1)}
             className={`absolute right-3 top-1/2 z-30 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-[var(--bs-cream)]/90 text-[var(--bs-navy)] shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[var(--bs-cream)] @min-[768px]:right-6 @min-[768px]:h-12 @min-[768px]:w-12 ${uiMode === 'hero' ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
               }`}
@@ -1788,13 +1800,13 @@ export function BooksShowcase({
         <div
           ref={dpRef}
           aria-live="polite"
-          className={`absolute right-[7%] top-1/2 z-[15] w-[min(560px,42%)] -translate-y-1/2 pointer-events-none @max-[760px]:right-auto @max-[760px]:left-1/2 @max-[760px]:top-auto @max-[760px]:bottom-[3.5%] @max-[760px]:w-[min(560px,92cqw)] @max-[760px]:-translate-x-1/2 @max-[760px]:translate-y-0 ${panelVisible ? 'visible' : 'invisible delay-[500ms]'
+          className={`absolute right-[7%] top-1/2 z-[15] w-[min(560px,42%)] -translate-y-1/2 pointer-events-none @max-[760px]:right-auto @max-[760px]:left-1/2 @max-[760px]:top-auto @max-[760px]:bottom-[2.5%] @max-[760px]:w-[min(560px,94cqw)] @max-[760px]:-translate-x-1/2 @max-[760px]:translate-y-0 ${panelVisible ? 'visible' : 'invisible delay-[500ms]'
             }`}
         >
-          <h1 className={`m-0 text-[var(--bs-pink)] text-[clamp(52px,5.6cqw,92px)] font-extrabold leading-[0.98] tracking-[-0.015em] @max-[760px]:text-[clamp(36px,9.5cqw,54px)] ${dpChild(50)}`}>
+          <h1 className={`m-0 text-[var(--bs-pink)] text-[clamp(52px,5.6cqw,92px)] font-extrabold leading-[0.98] tracking-[-0.015em] @max-[760px]:text-[clamp(30px,8.6cqw,44px)] ${dpChild(50)}`}>
             {selectedCfg?.title}
           </h1>
-          <p className={`mt-[26px] max-w-[54ch] text-[var(--bs-lav)] text-[clamp(16px,1.25cqw,19px)] leading-[1.65] @max-[760px]:mt-4 @max-[760px]:line-clamp-4 @max-[760px]:text-[15px] ${dpChild(130)}`}>
+          <p className={`mt-[26px] max-w-[54ch] text-[var(--bs-lav)] text-[clamp(16px,1.25cqw,19px)] leading-[1.65] @max-[760px]:mt-4 @max-[760px]:line-clamp-3 @max-[760px]:text-[14px] ${dpChild(130)}`}>
             {selectedCfg?.desc}
           </p>
           <div className={`mt-[34px] flex items-center gap-[18px] @max-[760px]:mt-[18px] ${dpChild(210)}`}>
@@ -1815,7 +1827,7 @@ export function BooksShowcase({
           </div>
           <div className={`mt-[26px] border-t border-[var(--bs-lav)]/[0.18] @max-[760px]:mt-4 ${dpChild(270)}`} />
           <div
-            className={`pointer-events-auto mt-8 inline-flex items-center gap-[10px] rounded-full bg-[#1a2140] p-[10px] shadow-[0_24px_60px_rgba(0,0,0,0.45)] @max-[760px]:mt-[18px] @max-[760px]:flex-wrap @max-[760px]:rounded-[28px] ${dpChild(330)}`}
+            className={`pointer-events-auto mt-8 inline-flex items-center gap-[10px] rounded-full bg-[#1a2140] p-[10px] shadow-[0_24px_60px_rgba(0,0,0,0.45)] @max-[760px]:mt-[18px] @max-[760px]:grid @max-[760px]:grid-cols-2 @max-[760px]:w-full @max-[760px]:rounded-[24px] ${dpChild(330)}`}
           >
             <button className="inline-flex h-[54px] items-center gap-[10px] rounded-full bg-[var(--bs-cream)] px-[26px] text-[16.5px] font-semibold text-[var(--bs-navy)] transition-[transform,filter] duration-[220ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.04] hover:brightness-105 @max-[760px]:h-12 @max-[760px]:px-5 @max-[760px]:text-[15px]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} className="h-5 w-5">
