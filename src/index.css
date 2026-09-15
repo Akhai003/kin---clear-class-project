@@ -157,3 +157,13 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 390px) {
   .book-showcase { min-height: 480px !important; }
 }
+
+/* V8 — 3D shop rendering polish: compositor isolation without changing layout. */
+.book-showcase canvas {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+.book-showcase {
+  contain: layout paint style;
+}

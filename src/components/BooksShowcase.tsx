@@ -138,10 +138,12 @@ export function BooksShowcase({
 
     // Small utilities
     const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const lowPowerDevice =
-      RM ||
-      window.matchMedia('(max-width: 900px)').matches ||
-      (navigator.hardwareConcurrency ?? 8) <= 4;
+    const compactViewport = window.matchMedia('(max-width: 900px)').matches;
+    const constrainedHardware = (navigator.hardwareConcurrency ?? 8) <= 4;
+    const lowPowerDevice = RM || constrainedHardware;
+    // Keep mobile efficient without treating every phone as a 20fps low-power device.
+    // Most modern Android devices can sustain a much smoother 45fps at DPR 1.
+    const targetFps = RM ? 30 : constrainedHardware ? 30 : compactViewport ? 45 : 60;
     const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
     class Spring {
@@ -210,7 +212,14 @@ export function BooksShowcase({
     // Renderer, scene, camera, lights
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: !lowPowerDevice, alpha: true });
+      renderer = new THREE.WebGLRenderer({
+        canvas: canvasEl,
+        antialias: !compactViewport && !lowPowerDevice,
+        alpha: true,
+        powerPreference: 'high-performance',
+        depth: true,
+        stencil: false,
+      });
     } catch (err) {
       console.warn('BooksShowcase: WebGL renderer creation failed', err);
       const fail = document.createElement('div');
@@ -227,11 +236,11 @@ export function BooksShowcase({
     // every place that would use innerWidth/innerHeight reads from `dims`.
     const dims = { w: 0, h: 0 };
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, lowPowerDevice ? 1 : 1.25));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, compactViewport || lowPowerDevice ? 1 : 1.35));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.92;
-    renderer.shadowMap.enabled = !lowPowerDevice;
+    renderer.shadowMap.enabled = !compactViewport && !lowPowerDevice;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     const ANISO = renderer.capabilities.getMaxAnisotropy();
 
@@ -273,7 +282,7 @@ export function BooksShowcase({
     const key = new THREE.DirectionalLight(0xffffff, 0.82);
     key.position.set(3.5, 5, 6);
     key.castShadow = true;
-    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.mapSize.set(1024, 1024);
     key.shadow.camera.left = -4;
     key.shadow.camera.right = 4;
     key.shadow.camera.top = 4;
@@ -567,8 +576,8 @@ export function BooksShowcase({
       T = 0.34,
       CT = 0.032,
       OV = 0.05;
-    const PAGE_N = lowPowerDevice ? 6 : 10,
-      BACK_PAGE_N = lowPowerDevice ? 3 : 5,
+    const PAGE_N = compactViewport || lowPowerDevice ? 6 : 10,
+      BACK_PAGE_N = compactViewport || lowPowerDevice ? 3 : 5,
       PW = W - 0.02,
       PH = H - 0.02;
     const BLOCK_D = 0.245,
@@ -1481,7 +1490,7 @@ export function BooksShowcase({
     let rafId = 0;
     let isInViewport = true;
     let lastFrameTime = 0;
-    const frameInterval = 1000 / (lowPowerDevice ? 20 : 30);
+    const frameInterval = 1000 / targetFps;
     function animate(timestamp = performance.now()) {
       if (cancelled || !isInViewport || document.hidden) {
         rafId = 0;
@@ -1553,8 +1562,8 @@ export function BooksShowcase({
       const r = root!.getBoundingClientRect();
       dims.w = Math.max(1, Math.round(r.width));
       dims.h = Math.max(1, Math.round(r.height));
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, lowPowerDevice ? 1 : 1.25));
-      renderer.setSize(dims.w, dims.h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, compactViewport || lowPowerDevice ? 1 : 1.35));
+      renderer.setSize(dims.w, dims.h, false);
       camera.aspect = dims.w / dims.h;
       camera.updateProjectionMatrix();
       computeSlots();
