@@ -4,7 +4,6 @@ import { getArticleBySlug } from '../data/articles';
 import { motion, useScroll } from 'motion/react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import EditorialVisual from '../components/EditorialVisual';
 
 export default function ArticleDetail() {
   const { slug } = useParams();
@@ -48,7 +47,7 @@ export default function ArticleDetail() {
         {/* Hero Image */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-16">
           <div className="aspect-[16/9] md:aspect-[21/9] rounded-[24px] overflow-hidden bg-sage-light">
-            <EditorialVisual kind={article.category === 'Ingredients' ? 'ingredient' : article.category === 'Routines' ? 'bath' : article.category === 'Baby Skin' ? 'baby' : 'journal'} title={article.title} className="w-full h-full" />
+            <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -89,20 +88,6 @@ export default function ArticleDetail() {
           </div>
           
         </div>
-
-        {/* Continue Exploring */}
-        <div className="max-w-4xl mx-auto text-center border-t border-sage-light pt-24 mt-24 px-4">
-          <h3 className="text-2xl font-serif font-medium mb-12">Continue Exploring</h3>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link to="/learn" className="px-8 py-4 bg-white border border-sage-light text-charcoal rounded-full font-medium hover:border-sage transition-all hover:-translate-y-1">
-              Knowledge Hub
-            </Link>
-            <Link to="/shop" className="px-8 py-4 bg-charcoal text-ivory rounded-full font-medium hover:bg-sage transition-all hover:-translate-y-1">
-              Shop Essentials
-            </Link>
-          </div>
-        </div>
-
       </div>
     </div>
   );

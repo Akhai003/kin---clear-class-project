@@ -4,7 +4,6 @@ import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 import { formatCurrency } from '../lib/utils';
 import { Link, useNavigate } from 'react-router-dom';
-import ProductVisual from './ProductVisual';
 
 export default function CartDrawer() {
   const { items, isOpen, toggleCart, updateQuantity, removeItem } = useCartStore();
@@ -64,7 +63,11 @@ export default function CartDrawer() {
                   {items.map((item) => (
                     <div key={item.product.id} className="flex gap-4">
                       <div className="w-24 h-24 rounded-lg overflow-hidden bg-sage-light flex-shrink-0">
-                        <ProductVisual product={item.product} className="w-full h-full" />
+                        <img 
+                          src={item.product.image} 
+                          alt={item.product.name} 
+                          className="w-full h-full object-contain p-3"
+                        />
                       </div>
                       <div className="flex flex-col flex-grow">
                         <div className="flex justify-between items-start">

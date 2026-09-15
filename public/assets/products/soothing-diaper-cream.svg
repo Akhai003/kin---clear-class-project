@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+<style>.brand{font:600 26px Arial,sans-serif;fill:#2c2c2c;letter-spacing:2px}.name{font:500 25px Georgia,serif;fill:#2c2c2c}.small{font:600 13px Arial,sans-serif;fill:#6b6b6b;letter-spacing:2px}</style>
+<rect width="800" height="1000" fill="#e9e4f0"/><circle cx="680" cy="130" r="160" fill="#fff" opacity=".28"/><circle cx="110" cy="850" r="190" fill="#fff" opacity=".22"/>
+<ellipse cx="400" cy="780" rx="210" ry="40" fill="#2c2c2c" opacity=".10"/><path d="M285 145h230l-18 360H303z" fill="#fffdfa" stroke="#a594b7" stroke-width="4"/><rect x="315" y="480" width="170" height="48" rx="14" fill="#a594b7"/>
+<text x="400" y="330" text-anchor="middle" class="brand">KIN &amp; CLEAR</text>
+<text x="400" y="370" text-anchor="middle" class="small">DIAPER CARE</text>
+<foreignObject x="330" y="395" width="140" height="90"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 22px Georgia,serif;color:#2c2c2c;text-align:center;line-height:1.15">Soothing Diaper Cream</div></foreignObject>
+<text x="400" y="500" text-anchor="middle" class="small">100g</text>
+<text x="400" y="900" text-anchor="middle" class="small">NOTHING HIDDEN. ONLY CARE.</text></svg>

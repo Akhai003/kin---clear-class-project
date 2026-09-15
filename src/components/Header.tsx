@@ -5,7 +5,6 @@ import { useCartStore } from '../store/useCartStore';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import { products } from '../data/products';
-import ProductVisual from './ProductVisual';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -167,7 +166,7 @@ export default function Header() {
 
                 <div className="w-2/4 bg-ivory rounded-2xl p-6 flex gap-6">
                   <div className="w-1/2 aspect-square rounded-xl overflow-hidden relative group">
-                    <ProductVisual product={products[14]} className="w-full h-full" />
+                    <img src={products[14]?.image || "https://images.unsplash.com/photo-1544626053-8985dc34ae63?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"} alt="Starter Set" className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="flex flex-col justify-center w-1/2">
                     <span className="text-xs font-semibold tracking-widest text-sage uppercase mb-2">Featured</span>

@@ -5,7 +5,6 @@ import { products } from '../data/products';
 import { ingredients } from '../data/ingredients';
 import ProductCard from '../components/ProductCard';
 import { motion, useScroll, useTransform } from 'motion/react';
-import EditorialVisual from '../components/EditorialVisual';
 
 export default function Home() {
   const featuredProducts = products.slice(0, 4);
@@ -23,12 +22,16 @@ export default function Home() {
   return (
     <div className="bg-ivory overflow-hidden">
       {/* 1. LAYERED HERO */}
-      <section ref={heroRef} className="relative min-h-[82vh] lg:min-h-[86vh] flex flex-col justify-end overflow-hidden pt-32 pb-12 lg:pb-24">
+      <section ref={heroRef} className="relative min-h-[90vh] flex flex-col justify-end overflow-hidden pt-32 pb-12 lg:pb-24">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <EditorialVisual kind="baby" title="Gentle care for the first years" className="w-full h-full opacity-90" />
+          <img 
+            src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+            alt="Mother and baby" 
+            className="w-full h-full object-cover opacity-80"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/80 to-transparent lg:via-ivory/40"></div>
         </motion.div>
 
@@ -123,55 +126,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. PARENT FAVORITES - PREMIUM EDITORIAL GRID */}
-      <section className="py-24 lg:py-32 overflow-hidden bg-ivory">
+      {/* 3. HORIZONTAL PRODUCT RAIL - BEST SELLERS */}
+      <section className="py-24 lg:py-32 overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-            <div className="max-w-xl">
-              <span className="text-sage font-semibold tracking-widest uppercase text-xs sm:text-sm mb-4 block">02 / Essentials</span>
-              <h2 className="text-fluid-h2 mb-4">Parent Favorites</h2>
-              <p className="text-slate text-lg">The formulas our community relies on every single day for their baby's routine.</p>
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <span className="text-xs font-semibold tracking-widest uppercase text-slate mb-3 block">02 / Essentials</span>
+              <h2 className="text-fluid-h2">Parent Favorites</h2>
             </div>
-            <Link to="/shop" className="hidden md:inline-flex items-center text-sm font-medium link-underline pb-1 text-charcoal hover:text-sage transition-colors">
-              Shop All Essentials <ArrowRight className="w-4 h-4 ml-2" />
+            <Link to="/shop" className="hidden md:inline-flex text-sm font-medium link-arrow link-underline pb-1">
+              Shop All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          
-          {/* Desktop Grid: 3 Large Cards */}
-          <div className="hidden lg:grid grid-cols-3 gap-8">
-            {bestSellers.slice(0, 3).map((product, i) => (
+
+          <div className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-6 lg:gap-8 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
+            {bestSellers.map((product, i) => (
               <motion.div 
                 key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
-                className="h-full"
+                transition={{ delay: i * 0.1 }}
+                className="w-[85vw] sm:w-[350px] flex-shrink-0 snap-start"
               >
                 <ProductCard product={product} />
               </motion.div>
             ))}
           </div>
-
-          {/* Mobile/Tablet Rail */}
-          <div className="lg:hidden flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {bestSellers.map((product, i) => (
-              <div key={product.id} className="w-[85vw] sm:w-[350px] flex-shrink-0 snap-start">
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-8 md:hidden text-center">
-             <Link to="/shop" className="inline-flex items-center text-sm font-medium link-arrow text-charcoal">
-                Shop All <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-          </div>
         </div>
       </section>
 
       {/* 4. EDITORIAL STATEMENT */}
-      <section className="py-32 lg:py-48 bg-sage-light text-center relative overflow-hidden">
+      <section className="py-24 lg:py-36 bg-sage-light text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 relative z-10">
           <motion.h2 
             initial={{ opacity: 0, y: 30 }}
@@ -205,7 +191,11 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="order-2 lg:order-1 aspect-square rounded-[24px] overflow-hidden bg-sage-light relative"
             >
-              <EditorialVisual kind="ingredient" title="Colloidal Oatmeal / texture study" className="w-full h-full" />
+              <img 
+                src={`${window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/'}assets/editorial/oatmeal.svg`} 
+                alt="Colloidal Oatmeal texture" 
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]"
+              />
             </motion.div>
 
             <div className="order-1 lg:order-2 lg:pl-12">
