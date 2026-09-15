@@ -165,21 +165,15 @@ export default function Header() {
                 </div>
 
                 <div className="w-2/4 bg-ivory rounded-2xl p-6 flex gap-6">
-                  <div className="w-1/2 aspect-square rounded-xl overflow-hidden relative group">
+                  <div className="w-1/2 aspect-square rounded-xl overflow-hidden relative group bg-sage-light">
                     <img
-                      src="https://images.pexels.com/photos/7691168/pexels-photo-7691168.jpeg?auto=compress&cs=tinysrgb&w=900"
-                      alt="Minimal skincare essentials arranged together for the Newborn Starter Set"
-                      className="w-full h-full object-cover group-hover:scale-[1.035] transition-transform duration-700"
+                      src="https://images.pexels.com/photos/5240623/pexels-photo-5240623.jpeg?auto=compress&cs=tinysrgb&w=900&h=900&fit=crop"
+                      alt="Minimal skincare set for the Newborn Starter Set"
                       loading="eager"
-                      referrerPolicy="no-referrer"
-                      onError={(event) => {
-                        const img = event.currentTarget;
-                        if (!img.dataset.fallback) {
-                          img.dataset.fallback = '1';
-                          img.src = 'https://images.pexels.com/photos/6621472/pexels-photo-6621472.jpeg?auto=compress&cs=tinysrgb&w=900';
-                        }
-                      }}
+                      onError={(e) => { e.currentTarget.src = products[14]?.image || 'https://images.pexels.com/photos/7691160/pexels-photo-7691160.jpeg?auto=compress&cs=tinysrgb&w=900&h=900&fit=crop'; }}
+                      className="w-full h-full object-cover group-hover:scale-[1.025] transition-transform duration-700 ease-out"
                     />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/5 via-transparent to-white/5" />
                   </div>
                   <div className="flex flex-col justify-center w-1/2">
                     <span className="text-xs font-semibold tracking-widest text-sage uppercase mb-2">Featured</span>

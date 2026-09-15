@@ -10,11 +10,11 @@ export default function Layout() {
   return (
     <div className="flex min-h-screen flex-col bg-ivory text-charcoal">
       <ScrollToTop />
+      <OfferStrip />
       <Header />
       <main className="flex-grow pt-20">
         <Outlet />
       </main>
-      <OfferStrip />
       <Footer />
       <CartDrawer />
     </div>

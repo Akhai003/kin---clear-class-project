@@ -168,21 +168,18 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
   contain: layout paint style;
 }
 
-/* Transactional offer rail: intentionally isolated above the footer so the existing header, pages and product cards remain untouched. */
-@keyframes kinOfferRail {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+/* Transactional offer ticker — deliberately lightweight and CSS-only. */
+@keyframes kin-offer-marquee {
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(-50%,0,0); }
 }
-.offer-strip-track {
-  animation: kinOfferRail 28s linear infinite;
+.offer-marquee {
+  animation: kin-offer-marquee 28s linear infinite;
   will-change: transform;
 }
 @media (max-width: 640px) {
-  .offer-strip-track { animation-duration: 22s; }
+  .offer-marquee { animation-duration: 22s; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .offer-strip-track {
-    animation: none;
-    transform: none;
-  }
+  .offer-marquee { animation: none; transform: none; }
 }
