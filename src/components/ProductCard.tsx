@@ -9,9 +9,6 @@ import { motion, AnimatePresence } from 'motion/react';
 export default function ProductCard({ product }: { product: Product, key?: React.Key }) {
   const addItem = useCartStore(state => state.addItem);
   const [added, setAdded] = useState(false);
-  const discount = product.originalPrice && product.originalPrice > product.price
-    ? Math.round((1 - product.price / product.originalPrice) * 100)
-    : 0;
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent triggering link
@@ -51,24 +48,10 @@ export default function ProductCard({ product }: { product: Product, key?: React
           <Link to={`/product/${product.slug}`} className="block pr-4">
             <h3 className="text-xl font-serif font-medium group-hover:text-sage transition-colors line-clamp-2 leading-tight">{product.name}</h3>
           </Link>
-          <div className="text-right whitespace-nowrap">
-            <span className="font-medium text-charcoal">{formatCurrency(product.price)}</span>
-            {product.originalPrice && product.originalPrice > product.price && (
-              <div className="mt-0.5 flex items-center justify-end gap-1.5 text-[11px]">
-                <span className="text-slate/60 line-through">{formatCurrency(product.originalPrice)}</span>
-                <span className="font-semibold text-terracotta">{discount}% off</span>
-              </div>
-            )}
-          </div>
+          <span className="font-medium whitespace-nowrap text-charcoal">{formatCurrency(product.price)}</span>
         </div>
         
-        <p className="text-slate text-sm mb-3 line-clamp-2 leading-relaxed">{product.shortBenefit}</p>
-        {discount > 0 && (
-          <div className="mb-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-peach/45 px-2.5 py-1 text-[11px] font-medium text-charcoal">
-            <span className="h-1.5 w-1.5 rounded-full bg-terracotta animate-pulse motion-reduce:animate-none" />
-            Limited offer · Save {formatCurrency((product.originalPrice || product.price) - product.price)}
-          </div>
-        )}
+        <p className="text-slate text-sm mb-6 line-clamp-2 leading-relaxed">{product.shortBenefit}</p>
         
         <div className="mt-auto flex items-center justify-between">
           <span className="text-xs font-medium tracking-wide uppercase text-slate/70">{product.size}</span>

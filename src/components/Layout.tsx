@@ -4,13 +4,11 @@ import Header from './Header';
 import Footer from './Footer';
 import CartDrawer from './CartDrawer';
 import ScrollToTop from './ScrollToTop';
-import OfferStrip from './OfferStrip';
 
 export default function Layout() {
   return (
     <div className="flex min-h-screen flex-col bg-ivory text-charcoal">
       <ScrollToTop />
-      <OfferStrip />
       <Header />
       <main className="flex-grow pt-20">
         <Outlet />
