@@ -192,7 +192,7 @@ export default function Home() {
               className="order-2 lg:order-1 aspect-square rounded-[24px] overflow-hidden bg-sage-light relative"
             >
               <img 
-                src="https://images.pexels.com/photos/5912000/pexels-photo-5912000.jpeg?auto=compress&cs=tinysrgb&w=1200&h=900&fit=crop" 
+                src="https://images.pexels.com/photos/6690857/pexels-photo-6690857.jpeg?auto=compress&cs=tinysrgb&w=1200&h=900&fit=crop" 
                 alt="Colloidal Oatmeal texture" 
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]"
               />
