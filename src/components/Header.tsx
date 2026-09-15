@@ -5,6 +5,7 @@ import { useCartStore } from '../store/useCartStore';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import { products } from '../data/products';
+import BrandLogo from './BrandLogo';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -71,8 +72,8 @@ export default function Header() {
             </button>
 
             {/* Logo */}
-            <Link to="/" className="text-2xl font-serif font-medium tracking-tight hover:opacity-80 transition-opacity z-10 shrink-0">
-              Kin & Clear
+            <Link to="/" className="hover:opacity-90 transition-opacity z-10 shrink-0" aria-label="Kin & Clear home">
+              <BrandLogo compact />
             </Link>
 
             {/* Desktop Nav */}
@@ -214,7 +215,7 @@ export default function Header() {
             className="fixed inset-0 z-50 bg-ivory flex flex-col"
           >
             <div className="flex items-center justify-between p-5 border-b border-sage-light">
-              <span className="text-xl font-serif font-medium">Kin & Clear</span>
+              <BrandLogo compact />
               <button 
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 text-charcoal hover:text-sage transition-colors"

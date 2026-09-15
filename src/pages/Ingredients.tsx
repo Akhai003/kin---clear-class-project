@@ -11,7 +11,8 @@ export default function Ingredients() {
   const [isDeepView, setIsDeepView] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const visualUrl = (name: string) => ({
-    oatmeal: 'https://images.pexels.com/photos/5912000/pexels-photo-5912000.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    oatmealHero: 'https://images.pexels.com/photos/6621332/pexels-photo-6621332.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    oatmeal: 'https://images.pexels.com/photos/7421197/pexels-photo-7421197.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
     calendula: 'https://images.pexels.com/photos/7796738/pexels-photo-7796738.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
     barrier: 'https://images.pexels.com/photos/6690857/pexels-photo-6690857.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
   } as Record<string,string>)[name] || 'https://images.pexels.com/photos/8172121/pexels-photo-8172121.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop';
@@ -33,7 +34,7 @@ export default function Ingredients() {
             <p className="text-fluid-body-lg text-slate">Know what it is. Why it's here. Where you'll find it — with enough context to make the label useful.</p>
           </div>
           <div className="lg:col-span-5 aspect-[4/3] rounded-[24px] overflow-hidden border border-sage-light bg-sage-light">
-            <img src={visualUrl('oatmeal')} alt="Ingredient library visual" className="w-full h-full object-cover" />
+            <img src={visualUrl('oatmealHero')} alt="Natural oat-based ingredient preparation" className="w-full h-full object-cover" />
           </div>
         </div>
 

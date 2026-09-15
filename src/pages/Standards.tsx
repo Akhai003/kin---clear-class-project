@@ -61,8 +61,8 @@ export default function Standards() {
   const [expandedStep, setExpandedStep] = useState<number | null>(0);
   const visuals = [
     'https://images.pexels.com/photos/8534250/pexels-photo-8534250.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
-    'https://images.pexels.com/photos/5912000/pexels-photo-5912000.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
-    'https://images.pexels.com/photos/33538457/pexels-photo-33538457.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/15831825/pexels-photo-15831825.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/6849414/pexels-photo-6849414.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
     'https://images.pexels.com/photos/6849408/pexels-photo-6849408.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
     'https://images.pexels.com/photos/7319128/pexels-photo-7319128.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
     'https://images.pexels.com/photos/6969089/pexels-photo-6969089.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',

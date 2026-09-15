@@ -183,3 +183,39 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .offer-marquee { animation: none; transform: none; }
 }
+
+/* Kin & Clear signature identity — custom K/C orbit mark + stronger editorial wordmark. */
+.kc-brand { line-height: 1; }
+.kc-mark {
+  overflow: visible;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.55)) drop-shadow(0 3px 7px rgba(44,44,44,.08));
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), filter .45s ease;
+}
+.kc-brand:hover .kc-mark {
+  transform: rotate(-3deg) scale(1.045);
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.65)) drop-shadow(0 5px 10px rgba(44,44,44,.12));
+}
+.kc-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.18rem, 1.5vw, 1.52rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  text-shadow: 0 .35px 0 currentColor;
+}
+.kc-word-kin { font-weight: 800; }
+.kc-amp {
+  position: relative;
+  margin: 0 .19em 0 .16em;
+  color: #788866;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.08em;
+  transform: translateY(.025em) rotate(-5deg);
+}
+.kc-word-clear { font-weight: 650; }
+@media (max-width: 390px) {
+  .kc-wordmark { font-size: 1.12rem; }
+  .kc-mark { width: 1.85rem; height: 1.85rem; }
+}

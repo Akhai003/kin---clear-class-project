@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { products } from '../data/products';
 import { ingredients } from '../data/ingredients';
 import ProductCard from '../components/ProductCard';
+import BrandLogo from '../components/BrandLogo';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function Home() {
@@ -37,14 +38,14 @@ export default function Home() {
 
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full">
           <div className="max-w-3xl">
-            <motion.span 
+            <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-sage font-semibold tracking-widest uppercase text-xs sm:text-sm mb-6 block"
+              className="mb-6 inline-flex rounded-2xl bg-ivory/70 px-3 py-2 backdrop-blur-sm"
             >
-              Kin & Clear
-            </motion.span>
+              <BrandLogo />
+            </motion.div>
             
             <motion.h1 
               initial={{ opacity: 0, y: 15 }}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter } from 'lucide-react';
+import BrandLogo from './BrandLogo';
 
 export default function Footer() {
   return (
@@ -9,7 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
           
           <div className="md:col-span-1">
-            <h2 className="text-2xl font-serif font-medium mb-4">Kin & Clear</h2>
+            <div className="mb-4"><BrandLogo /></div>
             <p className="text-slate text-sm mb-6 leading-relaxed">
               Nothing hidden. Only care. Safe, transparent, and gentle baby care products designed for modern parents.
             </p>
