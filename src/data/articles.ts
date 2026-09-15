@@ -1,7 +1,21 @@
 import { Article } from '../types';
 
-const assetBase = typeof window !== 'undefined' && window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/';
-const editorialImage = (name: string) => `${assetBase}assets/editorial/${name}.svg`;
+const pexels = (id: number) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1400&h=900&fit=crop`;
+const EDITORIAL_PHOTOS: Record<string, string> = {
+  'baby-skin': pexels(16865225),
+  'ingredient-label': pexels(12035712),
+  'bath-routine': pexels(6849418),
+  'hydration': pexels(7677590),
+  'formulation': pexels(8534250),
+  'diaper-care': pexels(8432197),
+  'parent-care': pexels(6969089),
+  'simple-routine': pexels(20509002),
+  'oatmeal': pexels(5912000),
+  'calendula': pexels(7796738),
+  'barrier': pexels(34404905),
+  'clear-labels': pexels(7319128),
+};
+const editorialImage = (name: string) => EDITORIAL_PHOTOS[name] || pexels(20509002);
 
 export const articles: Article[] = [
   {

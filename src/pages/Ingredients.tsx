@@ -10,7 +10,11 @@ export default function Ingredients() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [isDeepView, setIsDeepView] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const assetBase = typeof window !== 'undefined' && window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/';
+  const visualUrl = (name: string) => ({
+    oatmeal: 'https://images.pexels.com/photos/5912000/pexels-photo-5912000.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    calendula: 'https://images.pexels.com/photos/7796738/pexels-photo-7796738.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    barrier: 'https://images.pexels.com/photos/6690857/pexels-photo-6690857.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+  } as Record<string,string>)[name] || 'https://images.pexels.com/photos/8172121/pexels-photo-8172121.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop';
 
   const filteredIngredients = ingredients.filter(ing => {
     const matchesSearch = ing.name.toLowerCase().includes(searchTerm.toLowerCase()) || ing.role.toLowerCase().includes(searchTerm.toLowerCase());
@@ -29,7 +33,7 @@ export default function Ingredients() {
             <p className="text-fluid-body-lg text-slate">Know what it is. Why it's here. Where you'll find it — with enough context to make the label useful.</p>
           </div>
           <div className="lg:col-span-5 aspect-[4/3] rounded-[24px] overflow-hidden border border-sage-light bg-sage-light">
-            <img src={`${assetBase}assets/editorial/oatmeal.svg`} alt="Ingredient library visual" className="w-full h-full object-cover" />
+            <img src={visualUrl('oatmeal')} alt="Ingredient library visual" className="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -40,7 +44,7 @@ export default function Ingredients() {
             {name:'Barrier Support', visual:'barrier', copy:'Understand how moisturising and lipid-support ingredients work together.'}
           ].map((item) => (
             <div key={item.name} className="group bg-white border border-sage-light rounded-[20px] overflow-hidden hover:border-sage/60 transition-colors">
-              <div className="aspect-[16/10] overflow-hidden"><img src={`${assetBase}assets/editorial/${item.visual}.svg`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.025]" /></div>
+              <div className="aspect-[16/10] overflow-hidden"><img src={visualUrl(item.visual)} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.025]" /></div>
               <div className="p-5"><h3 className="font-serif text-xl mb-2">{item.name}</h3><p className="text-sm text-slate leading-relaxed">{item.copy}</p></div>
             </div>
           ))}

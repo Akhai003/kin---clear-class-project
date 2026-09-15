@@ -21,7 +21,14 @@ const GUIDES = [
 
 export default function Learn() {
   const [activeTopic, setActiveTopic] = useState(TOPICS[0].id);
-  const assetBase = typeof window !== 'undefined' && window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/';
+  const guideVisual = (name: string) => ({
+    'baby-skin': 'https://images.pexels.com/photos/16865225/pexels-photo-16865225.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    'ingredient-label': 'https://images.pexels.com/photos/12035712/pexels-photo-12035712.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    'bath-routine': 'https://images.pexels.com/photos/6849418/pexels-photo-6849418.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    'diaper-care': 'https://images.pexels.com/photos/8432197/pexels-photo-8432197.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    'simple-routine': 'https://images.pexels.com/photos/20509002/pexels-photo-20509002.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+    'parent-care': 'https://images.pexels.com/photos/6969089/pexels-photo-6969089.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop',
+  } as Record<string,string>)[name] || 'https://images.pexels.com/photos/20509002/pexels-photo-20509002.jpeg?auto=compress&cs=tinysrgb&w=1200&h=750&fit=crop';
   const topic = TOPICS.find(t => t.id === activeTopic)!;
   const topicArticles = articles.filter(a => topic.categories.includes(a.category)).slice(0, 4);
 
@@ -35,7 +42,7 @@ export default function Learn() {
             <p className="text-fluid-body-lg text-slate">Clear explanations for the questions that show up between the big firsts — from baby skin and labels to simple everyday routines.</p>
           </div>
           <div className="lg:col-span-5 aspect-[4/3] rounded-[24px] overflow-hidden border border-sage-light">
-            <img src={`${assetBase}assets/editorial/parent-care.svg`} alt="Kin & Clear learning hub" className="w-full h-full object-cover" />
+            <img src={guideVisual('parent-care')} alt="Kin & Clear learning hub" className="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -77,7 +84,7 @@ export default function Learn() {
           <div className="flex gap-6 overflow-x-auto hide-scrollbar snap-x pb-4">
             {GUIDES.map((guide, i) => (
               <motion.div key={guide.title} initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*.05}} className="min-w-[82vw] sm:min-w-[360px] lg:min-w-[390px] snap-start bg-white rounded-[22px] overflow-hidden border border-sage-light group hover:border-sage/60 transition-colors">
-                <div className="aspect-[16/10] overflow-hidden"><img src={`${assetBase}assets/editorial/${guide.image}.svg`} alt={`${guide.title} visual guide`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.025]" /></div>
+                <div className="aspect-[16/10] overflow-hidden"><img src={guideVisual(guide.image)} alt={`${guide.title} visual guide`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.025]" /></div>
                 <div className="p-6"><div className="flex items-center gap-2 text-xs text-slate mb-3"><Clock className="w-4 h-4" /> 5 min</div><h3 className="text-2xl font-serif mb-5">{guide.title} in 5 Minutes</h3><Link to={`/article/${guide.slug}`} className="inline-flex items-center gap-1 text-sm font-medium link-underline pb-1">Read Guide <ArrowRight className="w-4 h-4" /></Link></div>
               </motion.div>
             ))}

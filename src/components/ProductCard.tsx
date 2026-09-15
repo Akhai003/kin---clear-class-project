@@ -22,8 +22,10 @@ export default function ProductCard({ product }: { product: Product, key?: React
       <Link to={`/product/${product.slug}`} className="block relative aspect-[4/5] overflow-hidden bg-sage-light">
         <img 
           src={product.image} 
-          alt={product.name} 
-          className="w-full h-full object-contain p-5 sm:p-6 transition-transform duration-700 ease-out group-hover:scale-[1.035] group-hover:-translate-y-1"
+          alt={product.name}
+          loading="lazy"
+          onError={(e) => { e.currentTarget.src = 'https://images.pexels.com/photos/8172121/pexels-photo-8172121.jpeg?auto=compress&cs=tinysrgb&w=1000&h=1250&fit=crop'; }}
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
         />
         {/* Optional alternate image reveal on hover if provided */}
         {product.alternateImages && product.alternateImages.length > 0 && (

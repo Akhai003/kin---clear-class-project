@@ -1,7 +1,28 @@
 import { Product } from '../types';
 
-const assetBase = typeof window !== 'undefined' && window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/';
-const productImage = (slug: string) => `${assetBase}assets/products/${slug}.svg`;
+const pexels = (id: number) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1000&h=1250&fit=crop`;
+
+// Curated real product/lifestyle photography from Pexels (free-to-use).
+// Each SKU intentionally receives a different photograph so Shop and Parent Favorites never show blank placeholders.
+const PRODUCT_PHOTOS: Record<string, string> = {
+  'gentle-baby-wash': pexels(8054404),
+  'head-to-toe-newborn-cleanser': pexels(7815016),
+  'tear-free-baby-shampoo': pexels(8533212),
+  'calming-bedtime-bath': pexels(6849430),
+  'daily-moisturising-lotion': pexels(7814990),
+  'rich-barrier-cream': pexels(8015873),
+  'sensitive-skin-face-cream': pexels(6690857),
+  'baby-massage-oil': pexels(7795404),
+  'soothing-diaper-cream': pexels(12035712),
+  'protective-barrier-balm': pexels(6847825),
+  'sensitive-baby-wipes': pexels(9771341),
+  'multipurpose-baby-balm': pexels(6963149),
+  'gentle-cleansing-water': pexels(8172121),
+  'outdoor-baby-moisture-stick': pexels(11464441),
+  'newborn-starter-set': pexels(33538457),
+  'bath-bedtime-ritual-set': pexels(7691163),
+};
+const productImage = (slug: string) => PRODUCT_PHOTOS[slug] || pexels(8172121);
 import { getIngredientById } from './ingredients';
 
 // Helper to safely get ingredients

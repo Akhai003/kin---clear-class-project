@@ -28,7 +28,7 @@ export default function Home() {
           className="absolute inset-0 z-0"
         >
           <img 
-            src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+            src="https://images.pexels.com/photos/6849430/pexels-photo-6849430.jpeg?auto=compress&cs=tinysrgb&w=2000&h=1200&fit=crop" 
             alt="Mother and baby" 
             className="w-full h-full object-cover opacity-80"
           />
@@ -192,7 +192,7 @@ export default function Home() {
               className="order-2 lg:order-1 aspect-square rounded-[24px] overflow-hidden bg-sage-light relative"
             >
               <img 
-                src={`${window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/'}assets/editorial/oatmeal.svg`} 
+                src="https://images.pexels.com/photos/5912000/pexels-photo-5912000.jpeg?auto=compress&cs=tinysrgb&w=1200&h=900&fit=crop" 
                 alt="Colloidal Oatmeal texture" 
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]"
               />

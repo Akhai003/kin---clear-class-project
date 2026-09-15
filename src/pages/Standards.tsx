@@ -59,8 +59,14 @@ export default function Standards() {
   const [activeStep, setActiveStep] = useState(0);
   const [activeClaim, setActiveClaim] = useState(0);
   const [expandedStep, setExpandedStep] = useState<number | null>(0);
-  const assetBase = typeof window !== 'undefined' && window.location.pathname.startsWith('/kin---clear-class-project') ? '/kin---clear-class-project/' : '/';
-  const visuals = ['formulation','oatmeal','formulation','parent-care','clear-labels','parent-care'];
+  const visuals = [
+    'https://images.pexels.com/photos/8534250/pexels-photo-8534250.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/5912000/pexels-photo-5912000.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/33538457/pexels-photo-33538457.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/6849408/pexels-photo-6849408.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/7319128/pexels-photo-7319128.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+    'https://images.pexels.com/photos/6969089/pexels-photo-6969089.jpeg?auto=compress&cs=tinysrgb&w=1200&h=675&fit=crop',
+  ];
 
   // Simple scroll spy logic for desktop
   useEffect(() => {
@@ -128,7 +134,7 @@ export default function Standards() {
                   <h3 className="text-3xl font-serif">{std.title}</h3>
                 </div>
                 <div className="aspect-[16/9] rounded-[22px] overflow-hidden bg-sage-light mb-7 border border-sage-light">
-                  <img src={`${assetBase}assets/editorial/${visuals[idx]}.svg`} alt={`${std.title} visual guide`} className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" />
+                  <img src={visuals[idx]} alt={`${std.title} visual guide`} className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" />
                 </div>
                 <p className="text-lg lg:text-xl text-slate leading-relaxed mb-6">{std.desc}</p>
                 <button onClick={() => setExpandedStep(expandedStep === idx ? null : idx)} className="w-full bg-white rounded-[18px] p-6 border border-sage-light hover:border-sage/70 transition-colors text-left group">
