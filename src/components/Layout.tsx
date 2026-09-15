@@ -12,7 +12,7 @@ export default function Layout() {
       <ScrollToTop />
       <OfferStrip />
       <Header />
-      <main className="flex-grow pt-20">
+      <main className="flex-grow pt-[108px]">
         <Outlet />
       </main>
       <Footer />
