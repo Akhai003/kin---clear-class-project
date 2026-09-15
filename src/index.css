@@ -167,3 +167,19 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 .book-showcase {
   contain: layout paint style;
 }
+
+/* Transactional offer ticker — deliberately lightweight and CSS-only. */
+@keyframes kin-offer-marquee {
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(-50%,0,0); }
+}
+.offer-marquee {
+  animation: kin-offer-marquee 28s linear infinite;
+  will-change: transform;
+}
+@media (max-width: 640px) {
+  .offer-marquee { animation-duration: 22s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .offer-marquee { animation: none; transform: none; }
+}
