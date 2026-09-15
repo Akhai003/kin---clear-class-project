@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import CartDrawer from './CartDrawer';
 import ScrollToTop from './ScrollToTop';
+import OfferStrip from './OfferStrip';
 
 export default function Layout() {
   return (
@@ -13,6 +14,7 @@ export default function Layout() {
       <main className="flex-grow pt-20">
         <Outlet />
       </main>
+      <OfferStrip />
       <Footer />
       <CartDrawer />
     </div>
